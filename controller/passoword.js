@@ -9,7 +9,7 @@ const bcrypt = require("bcrypt");
 const forgotPassword = async (req, res, next) => {
 	const { email } = req.body;
 
-	const user = await User.findOne({  email: email  });
+	const user = await User.findOne({ email: email });
 	let newid = uuidv4();
 	if (user) {
 		let obj = {
@@ -39,7 +39,7 @@ const forgotPassword = async (req, res, next) => {
 		to: email,
 		subject: "Donty worry we will help you get a new password",
 		text: "hey qt",
-		html: `<a href="http://localhost:3001/password/resetpassword/${newid}">click here to reset your password</a>`,
+		html: `<a href="http://localhost:5000/password/resetpassword/${newid}">click here to reset your password</a>`,
 	};
 
 	transporter.sendMail(mailOptions, (error, info) => {
@@ -55,7 +55,7 @@ const forgotPassword = async (req, res, next) => {
 async function resetpassword(req, res, next) {
 	const { id } = req.params;
 
-	let user = await passwordReq.findOne( {id: id } );
+	let user = await passwordReq.findOne({ id: id });
 
 	if (user) {
 		user.updateOne({ active: false });

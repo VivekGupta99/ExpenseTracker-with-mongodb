@@ -4,25 +4,25 @@ forgotForm.addEventListener("submit", forgot);
 
 async function forgot(e) {
 	e.preventDefault();
-    try {
-        let email = document.querySelector("#emailId").value;
-   let res =  await axios.post('http://localhost:3001/password/forgotpassword',{email});
-   let successmessg = document.createElement("div");
+	try {
+		let email = document.querySelector("#emailId").value;
+		let res = await axios.post('http://localhost:5000/password/forgotpassword', { email });
+		let successmessg = document.createElement("div");
 		successmessg.classList = "success";
 		successmessg.appendChild(document.createTextNode(res.data.message));
 		setTimeout(() => successmessg.remove(), 4000);
 		document.body.appendChild(successmessg);
-		
-        
-    
-        
-    } catch (error) {
+
+
+
+
+	} catch (error) {
 		console.log(error);
-        let networkErr = document.createElement("div");
+		let networkErr = document.createElement("div");
 		networkErr.classList = "error";
 		networkErr.appendChild(document.createTextNode(error.response.data.message));
-		setTimeout(() => networkErr.remove(), 3001);
+		setTimeout(() => networkErr.remove(), 5000);
 		document.body.appendChild(networkErr);
-    }
+	}
 
 }

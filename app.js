@@ -20,6 +20,7 @@ const fs = require("fs");
 const connectDB = require("./db/connect");
 const app = express();
 const publicPath = path.join(__dirname, 'public');
+const PORT = process.env.PORT || 5000
 //production
 
 app.use(cors());
@@ -45,8 +46,8 @@ app.use('/premium', permiumRoute)
 async function serverStart() {
 	try {
 		await connectDB();
-		app.listen(3001, () => {
-			console.log(`server listening on port 3001...`);
+		app.listen(PORT, () => {
+			console.log(`server listening on port ${PORT}...`);
 		});
 	} catch (error) {
 		console.log(error);

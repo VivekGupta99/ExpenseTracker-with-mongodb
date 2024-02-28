@@ -18,7 +18,7 @@ async function signup(e) {
 			password: passwordInput.value,
 		};
 		console.log(signUpDetails);
-		let response = await axios.post("http://localhost:3001/user/signup", signUpDetails);
+		let response = await axios.post("http://localhost:5000/user/signup", signUpDetails);
 		if (response.status === 201) {
 			console.log("obj posted");
 			window.location.href = "../index.html";
@@ -27,7 +27,7 @@ async function signup(e) {
 		}
 	} catch (error) {
 		networkErr.appendChild(document.createTextNode(error.message));
-		setTimeout(() => networkErr.remove(), 3001);
+		setTimeout(() => networkErr.remove(), 5000);
 		document.body.appendChild(networkErr);
 		console.log(error);
 	}

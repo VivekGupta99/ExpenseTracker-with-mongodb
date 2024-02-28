@@ -2,10 +2,10 @@ const expenseUser = require("../models/expense");
 const User = require("../models/user");
 const AWS = require("aws-sdk");
 const fileurl = require("../models/fileurl");
-const path=require("path")
+const path = require("path")
 const expensepage = async (req, res, next) => {
 	try {
-		res.sendFile(path.join(__dirname, "../", "public","expenses", "expense.html"));
+		res.sendFile(path.join(__dirname, "../", "public", "expenses", "expense.html"));
 	} catch (error) {
 		console.log(error);
 	}
@@ -69,7 +69,6 @@ const deleteExpense = async (req, res, next) => {
 async function uploadToS3(data, filename) {
 	let s3bucket = new AWS.S3({
 		accessKeyId: process.env.IAM_USER_KEY,
-
 		secretAccessKey: process.env.IAM_USER_SECRET,
 	});
 	var params = {
@@ -144,4 +143,4 @@ async function pagination(req, res, next) {
 	}
 }
 
-module.exports = {expensepage, addExpense, getAllExpense, deleteExpense, downloadexpense, allfiles, pagination };
+module.exports = { expensepage, addExpense, getAllExpense, deleteExpense, downloadexpense, allfiles, pagination };

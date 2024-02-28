@@ -7,7 +7,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	} else {
 		getcurrPage(localStorage.getItem("currPageOnScreen"));
 	}
-	 document.querySelector("#ExpensePerPage select").value=localStorage.getItem("NoOfExpPerPage")
+	document.querySelector("#ExpensePerPage select").value = localStorage.getItem("NoOfExpPerPage")
 });
 let paginationButton = document.querySelector("#paginationButton");
 let amount = document.querySelector("#expense");
@@ -32,11 +32,11 @@ const getcurrPage = async function (currpage) {
 	try {
 		let noofexpperpage = localStorage.getItem("NoOfExpPerPage");
 		let token = localStorage.getItem("token");
-		const res = await axios.get(`http://localhost:3001/expense/pagination?currpage=${currpage}&expPerPage=${noofexpperpage}`, { headers: { Authorization: token } });
-		
+		const res = await axios.get(`http://localhost:5000/expense/pagination?currpage=${currpage}&expPerPage=${noofexpperpage}`, { headers: { Authorization: token } });
+
 		generate_form(res.data.expenses);
 		let currPage = res.data.currPage
-		localStorage.setItem('currPageOnScreen',currPage)
+		localStorage.setItem('currPageOnScreen', currPage)
 
 		showPagination(res.data);
 	} catch (error) {
@@ -87,7 +87,7 @@ async function paymentProcess(e) {
 	try {
 		const token = localStorage.getItem("token");
 
-		const response = await axios.get("http://localhost:3001/purchase/premiummembership", { headers: { Authorization: token } });
+		const response = await axios.get("http://localhost:5000/purchase/premiummembership", { headers: { Authorization: token } });
 		// console.log(response);
 
 		var options = {
@@ -96,7 +96,7 @@ async function paymentProcess(e) {
 
 			handler: async function (response) {
 				const res = await axios.post(
-					"http://localhost:3001/purchase/updatetransactionstatus/success",
+					"http://localhost:5000/purchase/updatetransactionstatus/success",
 					{
 						order_id: options.order_id,
 						payment_id: response.razorpay_payment_id,
@@ -132,7 +132,7 @@ async function paymentProcess(e) {
 			// console.log(error);
 
 			await axios.post(
-				"http://localhost:3001/purchase/updatetransactionstatus/failed",
+				"http://localhost:5000/purchase/updatetransactionstatus/failed",
 				{
 					order_id: response.error.metadata.order_id,
 					payment_id: response.error.metadata.payment_id,
@@ -148,7 +148,7 @@ async function paymentProcess(e) {
 		document.body.appendChild(errorDiv);
 		setTimeout(() => {
 			errorDiv.remove();
-		}, 3001);
+		}, 5000);
 	}
 }
 
@@ -170,7 +170,7 @@ errordiv.classList = "error";
 async function add_to_database(obj) {
 	try {
 		const token = localStorage.getItem("token");
-		await axios.post("http://localhost:3001/expense", obj, { headers: { Authorization: token } });
+		await axios.post("http://localhost:5000/expense", obj, { headers: { Authorization: token } });
 		getcurrPage(localStorage.getItem("currPageOnScreen"));
 	} catch (error) {
 		errordiv.createTextNode(error);
@@ -178,11 +178,11 @@ async function add_to_database(obj) {
 		console.log(error);
 	}
 }
-async function get_from_database() { 
+async function get_from_database() {
 	try {
 		const token = localStorage.getItem("token");
 
-		let arr = await axios.get("http://localhost:3001/expense", { headers: { Authorization: token } });
+		let arr = await axios.get("http://localhost:5000/expense", { headers: { Authorization: token } });
 		return arr.data;
 	} catch (error) {
 		console.log(error);
@@ -201,7 +201,7 @@ async function showleaderboard() {
 
 		let unorderedList = document.createElement("ul");
 		let token = localStorage.getItem("token");
-		let newarr = await axios.get("http://localhost:3001/premium/leaderboard", { headers: { Authorization: token } });
+		let newarr = await axios.get("http://localhost:5000/premium/leaderboard", { headers: { Authorization: token } });
 		let arr = newarr.data;
 
 		for (let i = 0; i < arr.length; i++) {
@@ -221,7 +221,7 @@ async function generate_form(expenses) {
 	try {
 		let token = localStorage.getItem("token");
 		let premium = parseJwt(token);
-	
+
 		if (premium.ispremium == true) {
 			rzpButton.remove();
 			let newhead = document.createElement("h1");
@@ -233,7 +233,7 @@ async function generate_form(expenses) {
 			leaderBoardBtn.classList.add("leaderboard-button");
 			leaderboardDiv.innerHTML = '';
 			leaderboardDiv.appendChild(leaderBoardBtn)
-					
+
 			leaderBoardBtn.addEventListener("click", showleaderboard);
 
 			downloadBtn.innerHTML = "";
@@ -246,10 +246,10 @@ async function generate_form(expenses) {
 		}
 
 		let arr = expenses;
-		
+
 
 		expensesDiv.innerHTML = "";
-		
+
 
 		let expenseshead = document.createElement("h2");
 		expenseshead.appendChild(document.createTextNode("Expenses"));
@@ -310,7 +310,7 @@ async function delete_data(e) {
 		// let amount = e.target.parentNode.getAttribute("amount");
 
 		e.target.parentNode.remove();
-		
+
 		await delete_from_database(id);
 		// generate_form();
 	} catch (error) {
@@ -321,7 +321,7 @@ async function delete_data(e) {
 async function delete_from_database(id) {
 	try {
 		let token = localStorage.getItem("token");
-		await axios.delete(`http://localhost:3001/expense/${id}`, { headers: { Authorization: token } });
+		await axios.delete(`http://localhost:5000/expense/${id}`, { headers: { Authorization: token } });
 		getcurrPage(1);
 	} catch (error) {
 		console.log(error);
@@ -333,14 +333,14 @@ async function delete_from_database(id) {
 		document.body.appendChild(errorDiv);
 		setTimeout(() => {
 			errorDiv.remove();
-		}, 3001);
+		}, 5000);
 	}
 }
 
 async function download() {
 	try {
 		let token = localStorage.getItem("token");
-		let res = await axios.get("http://localhost:3001/expense/download", { headers: { Authorization: token } });
+		let res = await axios.get("http://localhost:5000/expense/download", { headers: { Authorization: token } });
 
 		if (res.status === 200) {
 			var a = document.createElement("a");
@@ -360,7 +360,7 @@ async function download() {
 async function show_fileURL_list() {
 	try {
 		let token = localStorage.getItem("token");
-		let lis = await axios.get("http://localhost:3001/expense/allfiles", { headers: { Authorization: token } });
+		let lis = await axios.get("http://localhost:5000/expense/allfiles", { headers: { Authorization: token } });
 		let arr = lis.data;
 		let ul = document.createElement("ul");
 		let h = document.createElement("h3");
