@@ -39,7 +39,7 @@ const forgotPassword = async (req, res, next) => {
 		to: email,
 		subject: "Donty worry we will help you get a new password",
 		text: "hey qt",
-		html: `<a href="http://localhost:5000/password/resetpassword/${newid}">click here to reset your password</a>`,
+		html: `<a href="/password/resetpassword/${newid}">click here to reset your password</a>`,
 	};
 
 	transporter.sendMail(mailOptions, (error, info) => {

@@ -260,7 +260,7 @@
 					password: passwordInput.value,
 				};
 				console.log(signUpDetails);
-				let response = await axios.post("http://localhost:5000/user/signup", signUpDetails);
+				let response = await axios.post("/user/signup", signUpDetails);
 				if (response.status === 201) {
 					console.log("obj posted");
 					window.location.href = "/user";
